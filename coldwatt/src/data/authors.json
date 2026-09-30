@@ -1,10 +1,11 @@
 [
   {
     "id": "owner",
-    "name": "Ashton",
-    "role": "Founder & Editor",
+    "name": "ColdWatt Research",
+    "role": "Research & editorial",
+    "isOrganization": true,
     "location": "Alberta, Canada",
-    "bio": "Ashton lives in Alberta, where winter nights regularly drop below −30°C and a power outage is more than an inconvenience. ColdWatt started from a simple frustration: most portable power advice is written for mild climates and skips the cold-weather limits that matter here. Every guide is researched from manufacturer specifications, with sources linked so you can check the work.",
+    "bio": "ColdWatt Research is the byline for guides published by ColdWatt, an independent site run by a single editor in Alberta, where winter nights regularly drop below −30°C. Guides are researched from manufacturer specifications and public safety sources, with every source linked so you can check the work.",
     "sameAs": []
   }
 ]

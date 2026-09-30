@@ -15,9 +15,9 @@ const owner = await getEntry('authors', 'owner');
   <h2 id="owner">Who's behind it</h2>
   {owner && (
     <>
-      <p><strong>{owner.data.name}</strong> — {owner.data.role}{owner.data.location ? `, ${owner.data.location}` : ''}</p>
+      <p>{SITE.name} is run by one independent editor based in {owner.data.location ?? 'Canada'}. Guides are published under the byline <strong>{owner.data.name}</strong>.</p>
       <p>{owner.data.bio}</p>
-      <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', ...person({ id: owner.id, name: owner.data.name, sameAs: owner.data.sameAs }) })} />
+      <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', ...person({ id: owner.id, name: owner.data.name, sameAs: owner.data.sameAs, isOrganization: owner.data.isOrganization }) })} />
     </>
   )}
 

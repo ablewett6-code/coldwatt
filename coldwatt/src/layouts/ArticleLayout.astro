@@ -68,7 +68,7 @@ const schema: object[] = [
     path,
     published: d.publishDate,
     updated: d.updatedDate,
-    author: { id: author.id, name: author.data.name, sameAs: author.data.sameAs },
+    author: { id: author.id, name: author.data.name, sameAs: author.data.sameAs, isOrganization: author.data.isOrganization },
     image: d.heroImage,
   }),
 ];

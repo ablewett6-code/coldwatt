@@ -72,6 +72,8 @@ const authors = defineCollection({
   schema: z.object({
     name: z.string(),
     role: z.string(),
+    // true for a brand byline (e.g. "ColdWatt Research"); marks it as an Organization in search data
+    isOrganization: z.boolean().default(false),
     bio: z.string(),
     location: z.string().optional(),
     avatar: z.string().optional(),

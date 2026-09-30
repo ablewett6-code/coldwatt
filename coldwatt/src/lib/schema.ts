@@ -41,8 +41,8 @@ export const breadcrumbs = (items: { name: string; path: string }[]) => ({
   })),
 });
 
-export const person = (author: { id: string; name: string; sameAs?: string[] }) => ({
-  '@type': 'Person',
+export const person = (author: { id: string; name: string; sameAs?: string[]; isOrganization?: boolean }) => ({
+  '@type': author.isOrganization ? 'Organization' : 'Person',
   '@id': abs(`/about/#${author.id}`),
   name: author.name,
   url: abs('/about/'),
@@ -55,7 +55,7 @@ export const article = (opts: {
   path: string;
   published: Date;
   updated?: Date;
-  author: { id: string; name: string; sameAs?: string[] };
+  author: { id: string; name: string; sameAs?: string[]; isOrganization?: boolean };
   image?: string;
 }) => ({
   '@type': 'Article',
