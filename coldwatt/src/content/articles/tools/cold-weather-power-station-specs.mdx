@@ -4,6 +4,7 @@ seoTitle: "Power Station Cold-Weather Specs: Charging Temps"
 description: "Which power stations can charge below freezing? Minimum charging and operating temperatures for popular models, straight from manufacturer spec sheets."
 template: tool
 publishDate: 2026-09-29
+updatedDate: 2026-09-30
 faqs:
   - q: "Can you charge a power station below freezing?"
     a: "Usually not. Most power stations use lithium batteries that shouldn't be charged below 0°C, and many units will refuse to charge when they detect cold. Bring the unit into a heated space to charge. A few batteries include built-in heaters — check the spec sheet for that specific model."
@@ -18,14 +19,25 @@ sources:
     url: "https://ca.ecoflow.com/products/delta-3-plus-portable-power-station"
   - title: "BLUETTI Elite 30 V2 — official specifications (BLUETTI Canada)"
     url: "https://www.bluettipower.ca/products/elite-30-v2-portable-power-station"
+  - title: "Anker SOLIX C1000 Gen 2 — official specifications"
+    url: "https://www.ankersolix.com/products/c1000-gen2"
+  - title: "EcoFlow RIVER 3 Plus — official specifications"
+    url: "https://eu.ecoflow.com/products/river-3-plus-portable-power-station"
+  - title: "BLUETTI AC180 — official specifications"
+    url: "https://www.bluettipower.com/pages/ac180"
+  - title: "Jackery Explorer 2000 v2 — official specifications"
+    url: "https://www.jackery.com/products/jackery-explorer-2000-v2-portable-power-station"
+  - title: "Goal Zero Yeti 1500X — official specifications"
+    url: "https://goalzero.com/products/goal-zero-yeti-1500x-portable-power-station"
 todo:
-  - "Grow this table — it's the page other sites will link to. Aim for 15–25 models. For each, copy temps from the official spec sheet or user manual (PDF manuals often list temps when product pages don't)."
-  - "EcoFlow and BLUETTI don't list temperatures on their product pages. Check their user manuals and fill in chargeTempMinC / dischargeTempMinC in src/data/products.json."
+  - "Keep growing toward 15–25 models (see COLD-SPEC-RESEARCH.md). Still missing temps: EcoFlow DELTA 3 Plus, BLUETTI Elite 30 V2 and the charging floor for BLUETTI AC180 and Goal Zero Yeti 1500X."
 ---
 
 import ColdSpecDatabase from '../../../components/ColdSpecDatabase.astro';
 
 Before you buy a power station for winter, check two numbers: **the lowest temperature it can charge at** and **the lowest temperature it can run at**. Most product pages bury them — or leave them out entirely. This table collects them in one place, with a link to each manufacturer's spec sheet.
+
+**What stands out so far:** of the models we've checked, the **Anker SOLIX C1000 Gen 2** has the lowest published operating temperature, **−20°C**. Several others stop at **0°C** — meaning they're not rated to run below freezing at all. And every model that publishes a charging limit sets it at **0°C**.
 
 <ColdSpecDatabase />
 

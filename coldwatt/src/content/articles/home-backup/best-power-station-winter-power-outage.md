@@ -4,15 +4,20 @@ seoTitle: "Best Power Station for Winter Power Outages (Canada)"
 description: "The best portable power stations to keep your furnace fan, fridge and lights running when the power goes out in winter — sized for real Canadian outages."
 template: roundup
 publishDate: 2026-09-29
+updatedDate: 2026-09-30
 products:
   - ecoflow-delta-3-plus
+  - jackery-explorer-2000-v2
   - jackery-explorer-1000-v2
+  - ecoflow-river-3-plus
   - bluetti-elite-30-v2
 awards:
   ecoflow-delta-3-plus: "Best for furnace backup"
+  jackery-explorer-2000-v2: "Best for long outages"
   jackery-explorer-1000-v2: "Best for fridge & essentials"
+  ecoflow-river-3-plus: "Best small expandable pick"
   bluetti-elite-30-v2: "Best for phones, lights & CPAP"
-verdict: "To keep a furnace blower running, choose the EcoFlow DELTA 3 Plus for its output and add-on batteries. For a fridge, lights and internet, the lighter Jackery Explorer 1000 v2 is plenty. For just phones, lights and a CPAP, the small BLUETTI Elite 30 V2 does the job for much less."
+verdict: "For a furnace blower, the EcoFlow DELTA 3 Plus has the output and add-on batteries. For longer outages, the Jackery Explorer 2000 v2 doubles the capacity. For a fridge and essentials, the Jackery Explorer 1000 v2 is plenty, and for phones, lights and a CPAP the RIVER 3 Plus or BLUETTI Elite 30 V2 cost far less."
 faqs:
   - q: "What size power station do I need for a power outage?"
     a: "For phones, lights and internet, 250–500 Wh is often enough for a night. For a fridge, aim for 1,000 Wh or more. For a furnace blower, you want 1,500 W or more of output and as much capacity as your budget allows — or an expandable unit."
@@ -25,8 +30,10 @@ sources:
     url: "https://ca.jackery.com/products/jackery-explorer-1000-v2-portable-power-station"
   - title: "BLUETTI Elite 30 V2 — official specifications"
     url: "https://www.bluettipower.ca/products/elite-30-v2-portable-power-station"
-todo:
-  - "Add a larger 2,000 Wh+ unit (e.g. a bigger EcoFlow or BLUETTI, or Anker SOLIX F-series) as 'Best for long outages' once specs are verified."
+  - title: "Jackery Explorer 2000 v2 — official specifications"
+    url: "https://www.jackery.com/products/jackery-explorer-2000-v2-portable-power-station"
+  - title: "EcoFlow RIVER 3 Plus — official specifications"
+    url: "https://eu.ecoflow.com/products/river-3-plus-portable-power-station"
 ---
 
 ## Match the power station to your outage plan

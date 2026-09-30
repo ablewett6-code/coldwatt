@@ -22,8 +22,18 @@
     "specsVerified": true,
     "specsSource": "https://ca.ecoflow.com/products/delta-3-plus-portable-power-station",
     "links": {
-      "us": { "url": "https://us.ecoflow.com/", "merchant": "EcoFlow", "network": "TBD", "affiliate": false },
-      "ca": { "url": "https://ca.ecoflow.com/products/delta-3-plus-portable-power-station", "merchant": "EcoFlow Canada", "network": "TBD", "affiliate": false }
+      "us": {
+        "url": "https://us.ecoflow.com/",
+        "merchant": "EcoFlow",
+        "network": "TBD",
+        "affiliate": false
+      },
+      "ca": {
+        "url": "https://ca.ecoflow.com/products/delta-3-plus-portable-power-station",
+        "merchant": "EcoFlow Canada",
+        "network": "TBD",
+        "affiliate": false
+      }
     }
   },
   {
@@ -49,8 +59,18 @@
     "specsVerified": true,
     "specsSource": "https://ca.jackery.com/products/jackery-explorer-1000-v2-portable-power-station",
     "links": {
-      "us": { "url": "https://www.jackery.com/", "merchant": "Jackery", "network": "TBD", "affiliate": false },
-      "ca": { "url": "https://ca.jackery.com/products/jackery-explorer-1000-v2-portable-power-station", "merchant": "Jackery Canada", "network": "TBD", "affiliate": false }
+      "us": {
+        "url": "https://www.jackery.com/",
+        "merchant": "Jackery",
+        "network": "TBD",
+        "affiliate": false
+      },
+      "ca": {
+        "url": "https://ca.jackery.com/products/jackery-explorer-1000-v2-portable-power-station",
+        "merchant": "Jackery Canada",
+        "network": "TBD",
+        "affiliate": false
+      }
     }
   },
   {
@@ -76,8 +96,203 @@
     "specsVerified": true,
     "specsSource": "https://www.bluettipower.ca/products/elite-30-v2-portable-power-station",
     "links": {
-      "us": { "url": "https://www.bluettipower.com/", "merchant": "BLUETTI", "network": "TBD", "affiliate": false },
-      "ca": { "url": "https://www.bluettipower.ca/products/elite-30-v2-portable-power-station", "merchant": "BLUETTI Canada", "network": "TBD", "affiliate": false }
+      "us": {
+        "url": "https://www.bluettipower.com/",
+        "merchant": "BLUETTI",
+        "network": "TBD",
+        "affiliate": false
+      },
+      "ca": {
+        "url": "https://www.bluettipower.ca/products/elite-30-v2-portable-power-station",
+        "merchant": "BLUETTI Canada",
+        "network": "TBD",
+        "affiliate": false
+      }
+    }
+  },
+  {
+    "id": "anker-solix-c1000-gen-2",
+    "brand": "Anker SOLIX",
+    "name": "Anker SOLIX C1000 Gen 2",
+    "category": "power-station",
+    "bestFor": "Garages, vehicles and cabins that dip well below freezing",
+    "shortVerdict": "Anker rates it to run down to −20°C — the best published cold rating we've found at this size — with 2,000 W of output.",
+    "specs": {
+      "capacityWh": 1024,
+      "outputW": 2000,
+      "surgeW": 3000,
+      "solarInputW": 600,
+      "chemistry": null,
+      "weightLb": 24.9,
+      "acOutlets": null,
+      "upsMs": 10,
+      "chargeTempMinC": 0,
+      "dischargeTempMinC": -20,
+      "expandable": false
+    },
+    "specsVerified": true,
+    "specsSource": "https://www.ankersolix.com/products/c1000-gen2",
+    "links": {
+      "us": {
+        "url": "https://www.ankersolix.com/products/c1000-gen2",
+        "merchant": "Anker SOLIX",
+        "network": "TBD",
+        "affiliate": false
+      },
+      "ca": {
+        "url": "https://www.ankersolix.com/ca",
+        "merchant": "Anker SOLIX Canada",
+        "network": "TBD",
+        "affiliate": false
+      }
+    }
+  },
+  {
+    "id": "ecoflow-river-3-plus",
+    "brand": "EcoFlow",
+    "name": "EcoFlow RIVER 3 Plus",
+    "category": "power-station",
+    "bestFor": "Phones, lights, internet and a CPAP — with room to expand",
+    "shortVerdict": "A small LiFePO4 unit rated to run down to −10°C, with a sub-10 ms UPS switchover and an add-on battery option.",
+    "specs": {
+      "capacityWh": 286,
+      "outputW": 600,
+      "surgeW": 1200,
+      "solarInputW": 220,
+      "chemistry": "LiFePO4",
+      "weightLb": 10.4,
+      "acOutlets": 3,
+      "upsMs": 10,
+      "chargeTempMinC": 0,
+      "dischargeTempMinC": -10,
+      "expandable": true
+    },
+    "specsVerified": true,
+    "specsSource": "https://eu.ecoflow.com/products/river-3-plus-portable-power-station",
+    "links": {
+      "us": {
+        "url": "https://us.ecoflow.com/products/river-3-portable-power-station",
+        "merchant": "EcoFlow",
+        "network": "TBD",
+        "affiliate": false
+      },
+      "ca": {
+        "url": "https://ca.ecoflow.com/",
+        "merchant": "EcoFlow Canada",
+        "network": "TBD",
+        "affiliate": false
+      }
+    }
+  },
+  {
+    "id": "bluetti-ac180",
+    "brand": "BLUETTI",
+    "name": "BLUETTI AC180",
+    "category": "power-station",
+    "bestFor": "Mid-size home backup kept in a heated room",
+    "shortVerdict": "1,800 W and expandable to over 4 kWh, but BLUETTI lists its operating range as starting at 0°C — so it must stay indoors in winter.",
+    "specs": {
+      "capacityWh": 1152,
+      "outputW": 1800,
+      "surgeW": 2700,
+      "solarInputW": 500,
+      "chemistry": "LiFePO4",
+      "weightLb": 35.3,
+      "acOutlets": 4,
+      "upsMs": 20,
+      "chargeTempMinC": null,
+      "dischargeTempMinC": 0,
+      "expandable": true
+    },
+    "specsVerified": true,
+    "specsSource": "https://www.bluettipower.com/pages/ac180",
+    "links": {
+      "us": {
+        "url": "https://www.bluettipower.com/pages/ac180",
+        "merchant": "BLUETTI",
+        "network": "TBD",
+        "affiliate": false
+      },
+      "ca": {
+        "url": "https://www.bluettipower.ca/",
+        "merchant": "BLUETTI Canada",
+        "network": "TBD",
+        "affiliate": false
+      }
+    }
+  },
+  {
+    "id": "jackery-explorer-2000-v2",
+    "brand": "Jackery",
+    "name": "Jackery Explorer 2000 v2",
+    "category": "power-station",
+    "bestFor": "Longer outages with a furnace blower and fridge",
+    "shortVerdict": "About twice the capacity of the Explorer 1000 v2 with 2,200 W output; same published −10°C operating floor, and not expandable.",
+    "specs": {
+      "capacityWh": 2042,
+      "outputW": 2200,
+      "surgeW": 4400,
+      "solarInputW": null,
+      "chemistry": "LiFePO4",
+      "weightLb": 39.5,
+      "acOutlets": 3,
+      "upsMs": 20,
+      "chargeTempMinC": 0,
+      "dischargeTempMinC": -10,
+      "expandable": false
+    },
+    "specsVerified": true,
+    "specsSource": "https://www.jackery.com/products/jackery-explorer-2000-v2-portable-power-station",
+    "links": {
+      "us": {
+        "url": "https://www.jackery.com/products/jackery-explorer-2000-v2-portable-power-station",
+        "merchant": "Jackery",
+        "network": "TBD",
+        "affiliate": false
+      },
+      "ca": {
+        "url": "https://ca.jackery.com/",
+        "merchant": "Jackery Canada",
+        "network": "TBD",
+        "affiliate": false
+      }
+    }
+  },
+  {
+    "id": "goal-zero-yeti-1500x",
+    "brand": "Goal Zero",
+    "name": "Goal Zero Yeti 1500X",
+    "category": "power-station",
+    "bestFor": "Expandable backup for people already in the Goal Zero system",
+    "shortVerdict": "2,000 W output and expandable, but it uses NMC lithium rather than LiFePO4 and Goal Zero lists an operating floor of 0°C.",
+    "specs": {
+      "capacityWh": 1516,
+      "outputW": 2000,
+      "surgeW": 3500,
+      "solarInputW": 600,
+      "chemistry": "Li-ion NMC",
+      "weightLb": 45.6,
+      "acOutlets": 2,
+      "upsMs": null,
+      "chargeTempMinC": null,
+      "dischargeTempMinC": 0,
+      "expandable": true
+    },
+    "specsVerified": true,
+    "specsSource": "https://goalzero.com/products/goal-zero-yeti-1500x-portable-power-station",
+    "links": {
+      "us": {
+        "url": "https://goalzero.com/products/goal-zero-yeti-1500x-portable-power-station",
+        "merchant": "Goal Zero",
+        "network": "TBD",
+        "affiliate": false
+      },
+      "ca": {
+        "url": "https://goalzero.com/products/goal-zero-yeti-1500x-portable-power-station",
+        "merchant": "Goal Zero",
+        "network": "TBD",
+        "affiliate": false
+      }
     }
   }
 ]
