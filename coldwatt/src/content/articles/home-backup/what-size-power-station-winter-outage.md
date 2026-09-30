@@ -1,7 +1,7 @@
 ---
 title: "What Size Power Station Do I Need for a Winter Outage?"
 seoTitle: "What Size Power Station Do I Need? (Winter Outage Guide)"
-description: "Watts vs watt-hours explained, plus three worked examples — essentials only, add the fridge, add the furnace fan — to size a power station for a Canadian winter outage."
+description: "Watts vs watt-hours explained, with three worked examples — essentials, add the fridge, add the furnace fan — to size a power station for a winter outage."
 template: guide
 publishDate: 2026-09-30
 faqs:

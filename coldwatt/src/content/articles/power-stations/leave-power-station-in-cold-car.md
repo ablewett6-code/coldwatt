@@ -1,7 +1,7 @@
 ---
 title: "Can You Leave a Power Station in a Cold Car or Truck?"
 seoTitle: "Can You Leave a Power Station in a Cold Car in Winter?"
-description: "What happens to a portable power station left in a vehicle overnight in a Canadian winter — operating limits, charging below freezing, and how to store one safely."
+description: "What happens to a power station left in a vehicle overnight in a Canadian winter: operating limits, charging below freezing, and how to store it safely."
 template: guide
 publishDate: 2026-09-30
 faqs:
