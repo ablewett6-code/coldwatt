@@ -1,0 +1,47 @@
+---
+/**
+ * Cold-weather spec database, generated from src/data/products.json.
+ * Usage in MDX: <ColdSpecDatabase />
+ * Add a product to the JSON and it appears here automatically.
+ */
+import { getCollection } from 'astro:content';
+import { formatSpec, NOT_PUBLISHED, goUrl, AFFILIATE_REL } from '../lib/products';
+
+const products = (await getCollection('products', (p) => p.data.category === 'power-station'))
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+const cell = (v: string) => ({ text: v, na: v === NOT_PUBLISHED });
+---
+<div class="data-table-wrap" role="region" aria-label="Cold-weather specs table" tabindex="0">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th scope="col">Model</th>
+        <th scope="col">Chemistry</th>
+        <th scope="col">Lowest charging temp</th>
+        <th scope="col">Lowest operating temp</th>
+        <th scope="col">Capacity</th>
+        <th scope="col">Source</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {products.map((p) => {
+        const s = p.data.specs;
+        const cols = [
+          cell(formatSpec('chemistry', s.chemistry)),
+          cell(formatSpec('chargeTempMinC', s.chargeTempMinC)),
+          cell(formatSpec('dischargeTempMinC', s.dischargeTempMinC)),
+          cell(formatSpec('capacityWh', s.capacityWh)),
+        ];
+        return (
+          <tr>
+            <th scope="row">{p.data.name}</th>
+            {cols.map((c) => <td class:list={{ na: c.na }}>{c.text}</td>)}
+            <td>{p.data.specsSource ? <a href={p.data.specsSource} rel="nofollow noopener" target="_blank">Spec sheet</a> : '—'}</td>
+            <td><a class="cta" style="min-height:36px;padding:.4rem .8rem;font-size:.85rem" href={goUrl(p.id)} rel={AFFILIATE_REL} target="_blank">Check price</a></td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>

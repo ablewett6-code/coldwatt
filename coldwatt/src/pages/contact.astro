@@ -1,0 +1,14 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE } from '../site.config';
+---
+<PageLayout title="Contact" description={`Get in touch with ${SITE.name} — corrections, questions and partnership enquiries.`}>
+  <p>The fastest way to reach us is by email: <a href={`mailto:${SITE.contactEmail}`}><strong>{SITE.contactEmail}</strong></a></p>
+  <h2>Good reasons to write</h2>
+  <ul>
+    <li><strong>Corrections:</strong> a spec is wrong or out of date. Please include a link to the source.</li>
+    <li><strong>Questions:</strong> you're not sure which setup fits your situation. We can't answer every email, but we read them all, and common questions become new guides.</li>
+    <li><strong>Brands and PR:</strong> we're open to hearing about new products and to borrowing review units. Lending a product never guarantees coverage or a positive write-up, and any loan is disclosed on the page.</li>
+  </ul>
+  <p class="small muted">We don't accept paid placements, sponsored rankings or guest posts with links.</p>
+</PageLayout>

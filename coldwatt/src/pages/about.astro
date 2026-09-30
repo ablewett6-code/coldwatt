@@ -1,0 +1,35 @@
+---
+import { getEntry } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE } from '../site.config';
+import { person } from '../lib/schema';
+
+const owner = await getEntry('authors', 'owner');
+---
+<PageLayout
+  title="About"
+  description={`Who runs ${SITE.name}, why it exists, and how we keep our power station guides independent.`}
+>
+  <p><strong>{SITE.name} exists because winter power is a different problem.</strong> Most portable power advice is written for summer camping in mild climates. It rarely mentions that many lithium batteries can't be charged below freezing, or that a unit left in an unheated garage might shut off in the middle of an outage. Where we live, that's the whole question.</p>
+
+  <h2 id="owner">Who's behind it</h2>
+  {owner && (
+    <>
+      <p><strong>{owner.data.name}</strong> — {owner.data.role}{owner.data.location ? `, ${owner.data.location}` : ''}</p>
+      <p>{owner.data.bio}</p>
+      <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', ...person({ id: owner.id, name: owner.data.name, sameAs: owner.data.sameAs }) })} />
+    </>
+  )}
+
+  <h2>What you'll find here</h2>
+  <ul>
+    <li><a href="/tools/">Free tools</a> — a winter runtime calculator and a database of cold-weather specs for popular power stations.</li>
+    <li><a href="/power-stations/">Buying guides</a> — picks for specific winter situations, with the reasoning shown.</li>
+    <li><a href="/home-backup/">Home backup</a> and <a href="/cabin-power/">cabin power</a> guides for planning a setup that works when it's −30°C.</li>
+  </ul>
+
+  <h2>How we stay independent</h2>
+  <p>We earn commissions when readers buy through our links, but brands can't pay for placement, and we're upfront about what we've tested (and haven't). Read <a href="/how-we-research/">how we research</a> and our <a href="/affiliate-disclosure/">affiliate disclosure</a>.</p>
+
+  <p>Get in touch: <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a></p>
+</PageLayout>

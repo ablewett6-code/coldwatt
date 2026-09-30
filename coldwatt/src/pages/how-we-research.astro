@@ -1,0 +1,29 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE } from '../site.config';
+---
+<PageLayout
+  title="How We Research"
+  description={`Exactly how ${SITE.name} researches power stations and writes buying guides — what we check, what we don't claim, and how we choose picks.`}
+  updated={SITE.legalUpdated}
+>
+  <p>Most "best power station" lists online imply hands-on testing that never happened. We'd rather tell you exactly what we did. Here's the process behind every guide on {SITE.name}.</p>
+
+  <h2>What we do</h2>
+  <ol>
+    <li><strong>Specs come from the manufacturer.</strong> Every capacity, output, weight and temperature rating on this site is taken from the brand's own spec sheet, and each product page links to it. If a manufacturer doesn't publish a number, we say "Not published" instead of guessing.</li>
+    <li><strong>We focus on what matters in the cold.</strong> Minimum charging and operating temperatures, battery chemistry, and whether a unit can realistically run a furnace blower are front and centre — because that's what our readers need and most sites skip.</li>
+    <li><strong>We read what owners report.</strong> We look for patterns across verified-purchase reviews, forums and support documents — recurring problems in cold weather, warranty issues, customer service experiences — and summarise them in our own words.</li>
+    <li><strong>We do the math.</strong> Runtime estimates use the published capacity and a stated set of assumptions (usable capacity, inverter losses, cold derating). Our <a href="/tools/winter-runtime-calculator/">runtime calculator</a> shows every assumption so you can check our work.</li>
+    <li><strong>We update.</strong> Specs, models and prices change. Each guide shows when it was last updated, and we revisit guides at least twice a year — before winter and after.</li>
+  </ol>
+
+  <h2>What we don't claim</h2>
+  <p>Unless a page explicitly says otherwise, <strong>we have not personally tested the products in our guides</strong>. We don't give star ratings to products we haven't used, and we don't publish "test results" we didn't produce. If we ever get hands-on time with a product, that page will say so clearly, including whether the unit was bought or lent by the brand.</p>
+
+  <h2>How we pick products</h2>
+  <p>Picks are chosen for how well they fit a specific winter use — backing up a furnace, powering a cabin, getting through a camping trip — based on published specs, cold-weather limits, owner-reported reliability, and value. Whether a product has an affiliate program never decides whether it's included. See our <a href="/affiliate-disclosure/">affiliate disclosure</a>.</p>
+
+  <h2>Spot an error?</h2>
+  <p>Specs get revised and we make mistakes. If something's wrong, email <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a> with a link to the source and we'll fix it, usually within a few days.</p>
+</PageLayout>

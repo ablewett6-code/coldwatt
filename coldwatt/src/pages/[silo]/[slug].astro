@@ -1,0 +1,21 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { getSilo } from '../../site.config';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', (a) => !(import.meta.env.PROD && a.data.draft));
+  return articles
+    .filter((a) => getSilo(a.id.split('/')[0]))
+    .map((entry) => {
+      const [silo, slug] = entry.id.split('/');
+      return { params: { silo, slug }, props: { entry } };
+    });
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<ArticleLayout entry={entry}>
+  <Content />
+</ArticleLayout>

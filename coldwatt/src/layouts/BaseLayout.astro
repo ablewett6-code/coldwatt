@@ -1,0 +1,122 @@
+---
+import '../styles/global.css';
+import { SITE, activeSilos } from '../site.config';
+import { graph, organization, website } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Extra JSON-LD nodes for this page (merged into one @graph with Organization + WebSite). */
+  schema?: object[];
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  publishedTime?: Date;
+  modifiedTime?: Date;
+}
+
+const {
+  title,
+  description,
+  schema = [],
+  ogImage = SITE.defaultOgImage,
+  ogType = 'website',
+  noindex = false,
+  publishedTime,
+  modifiedTime,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, SITE.url).toString();
+const fullTitle = title.includes(SITE.name) ? title : `${title} | ${SITE.name}`;
+const ogImageUrl = new URL(ogImage, SITE.url).toString();
+const jsonLd = graph(organization(), website(), ...schema);
+const path = Astro.url.pathname;
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="en-CA">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />}
+
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_CA" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    {SITE.twitterHandle && <meta name="twitter:site" content={SITE.twitterHandle} />}
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#0f1b2d" />
+    <meta name="generator" content={Astro.generator} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/" aria-label={`${SITE.name} home`}>
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1b2d"/><path d="M18 4 9 18h6l-2 10 10-15h-6l1-9Z" fill="#f29a38"/><path d="M5 9h5M5 23h5M22 26h5" stroke="#6cb2f0" stroke-width="2" stroke-linecap="round"/></svg>
+          {SITE.name}
+        </a>
+        <nav class="nav" aria-label="Main">
+          {activeSilos().map((s) => (
+            <a href={`/${s.slug}/`} aria-current={path.startsWith(`/${s.slug}/`) ? 'page' : undefined}>{s.short}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="cols">
+          <div>
+            <h2>{SITE.name}</h2>
+            <p>{SITE.tagline}</p>
+          </div>
+          <div>
+            <h2>Topics</h2>
+            <ul>{activeSilos().map((s) => <li><a href={`/${s.slug}/`}>{s.name}</a></li>)}</ul>
+          </div>
+          <div>
+            <h2>About</h2>
+            <ul>
+              <li><a href="/about/">About us</a></li>
+              <li><a href="/how-we-research/">How we research</a></li>
+              <li><a href="/contact/">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Legal</h2>
+            <ul>
+              <li><a href="/affiliate-disclosure/">Affiliate disclosure</a></li>
+              <li><a href="/privacy-policy/">Privacy policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <p class="fine">
+          {SITE.name} is reader-supported. When you buy through links on our site, we may earn an affiliate commission at no extra cost to you. This never affects which products we recommend. <a href="/affiliate-disclosure/">Learn more</a>.
+          <br />© {year} {SITE.name}. Specs and prices change — always confirm details with the retailer before buying.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

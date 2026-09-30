@@ -1,0 +1,55 @@
+---
+import { getCollection, getEntries } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, activeSilos } from '../site.config';
+
+const articles = await getCollection('articles', (a) => !(import.meta.env.PROD && a.data.draft));
+const tools = articles.filter((a) => a.data.template === 'tool');
+const guides = articles.filter((a) => a.data.template === 'roundup' || a.data.template === 'vs');
+const learn = articles.filter((a) => a.data.template === 'guide');
+const card = (a: (typeof articles)[number], t: string) => ({ href: `/${a.id}/`, t, title: a.data.title, desc: a.data.description });
+---
+<BaseLayout title={`${SITE.name}: ${SITE.tagline}`} description={SITE.description}>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Will your power station survive a <span class="temp">−30°C</span> night?</h1>
+      <p>{SITE.name} helps Canadians choose portable power for winter outages, cabins and cold-weather camping — with free calculators, manufacturer-verified cold specs, and buying guides that say plainly what we know and what we don't.</p>
+      {tools[0] && <p style="margin-top:1.5rem"><a class="cta" href={`/${tools[0].id}/`}>Try the winter runtime calculator →</a></p>}
+    </div>
+  </section>
+
+  <div class="wrap">
+    {tools.length > 0 && (
+      <section>
+        <h2>Free tools</h2>
+        <ul class="grid-cards">{tools.map((a) => { const c = card(a, 'Free tool'); return <li><a class="card" href={c.href}><span class="t">{c.t}</span><h3>{c.title}</h3><p>{c.desc}</p></a></li>; })}</ul>
+      </section>
+    )}
+
+    {guides.length > 0 && (
+      <section>
+        <h2>Buying guides</h2>
+        <ul class="grid-cards">{guides.map((a) => { const c = card(a, a.data.template === 'vs' ? 'Comparison' : 'Buying guide'); return <li><a class="card" href={c.href}><span class="t">{c.t}</span><h3>{c.title}</h3><p>{c.desc}</p></a></li>; })}</ul>
+      </section>
+    )}
+
+    {learn.length > 0 && (
+      <section>
+        <h2>Learn the basics</h2>
+        <ul class="grid-cards">{learn.map((a) => { const c = card(a, 'Guide'); return <li><a class="card" href={c.href}><span class="t">{c.t}</span><h3>{c.title}</h3><p>{c.desc}</p></a></li>; })}</ul>
+      </section>
+    )}
+
+    <section>
+      <h2>Browse by topic</h2>
+      <ul class="grid-cards">
+        {activeSilos().map((s) => <li><a class="card" href={`/${s.slug}/`}><h3>{s.name}</h3><p>{s.description}</p></a></li>)}
+      </ul>
+    </section>
+
+    <section class="prose">
+      <h2>How we work</h2>
+      <p>We don't accept payment for rankings, and we don't pretend to have tested things we haven't. Every spec on this site links to the manufacturer's own data, and every guide explains how we reached its conclusions. <a href="/how-we-research/">Read our research process</a>.</p>
+    </section>
+  </div>
+</BaseLayout>

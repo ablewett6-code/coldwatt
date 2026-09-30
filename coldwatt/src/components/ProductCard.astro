@@ -1,0 +1,34 @@
+---
+import CTAButton from './CTAButton.astro';
+import { coldReadiness, formatSpec } from '../lib/products';
+import type { Product } from '../lib/products';
+
+interface Props {
+  product: Product;
+  award?: string;
+  /** Link to the product's own guide page, if one exists. */
+  guidePath?: string;
+  rank?: number;
+}
+const { product, award, guidePath, rank } = Astro.props;
+const d = product.data;
+const cold = coldReadiness(product);
+const anchor = product.id;
+---
+<article class="pcard" id={anchor}>
+  {award && <span class="award-pill">{award}</span>}
+  <h3>{rank ? `${rank}. ` : ''}{d.name}</h3>
+  {d.bestFor && <p class="bestfor"><strong>Best for:</strong> {d.bestFor}</p>}
+  <ul class="kspecs">
+    <li><span class="k">Capacity</span><span class="v">{formatSpec('capacityWh', d.specs.capacityWh)}</span></li>
+    <li><span class="k">AC output</span><span class="v">{formatSpec('outputW', d.specs.outputW)}</span></li>
+    <li><span class="k">Weight</span><span class="v">{formatSpec('weightLb', d.specs.weightLb)}</span></li>
+    <li><span class="k">Charges down to</span><span class="v">{formatSpec('chargeTempMinC', d.specs.chargeTempMinC)}</span></li>
+  </ul>
+  <p><span class={`badge ${cold.tone}`}>{cold.label}</span></p>
+  <slot />
+  <div class="cta-row">
+    <CTAButton product={product} />
+    {guidePath && <a class="cta ghost" href={guidePath}>Full specs & buyer's guide</a>}
+  </div>
+</article>

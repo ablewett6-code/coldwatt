@@ -1,0 +1,46 @@
+---
+import CTAButton from './CTAButton.astro';
+import { coldReadiness, formatSpec } from '../lib/products';
+import type { Product } from '../lib/products';
+
+interface Props {
+  products: Product[];
+  awards?: Record<string, string>;
+  caption?: string;
+}
+const { products, awards = {}, caption = 'Quick comparison' } = Astro.props;
+---
+<table class="compare">
+  <caption>{caption}</caption>
+  <thead>
+    <tr>
+      <th scope="col">Model</th>
+      <th scope="col">Capacity</th>
+      <th scope="col">AC output</th>
+      <th scope="col">Weight</th>
+      <th scope="col">Cold weather</th>
+      <th scope="col"><span class="visually-hidden">Buy</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    {products.map((p) => {
+      const cold = coldReadiness(p);
+      return (
+        <tr>
+          <td class="pcell">
+            {awards[p.id] && <span class="award">{awards[p.id]}</span>}
+            <span class="pname">{p.data.name}</span>
+          </td>
+          <td data-label="Capacity">{formatSpec('capacityWh', p.data.specs.capacityWh)}</td>
+          <td data-label="AC output">{formatSpec('outputW', p.data.specs.outputW)}</td>
+          <td data-label="Weight">{formatSpec('weightLb', p.data.specs.weightLb)}</td>
+          <td data-label="Cold weather"><span class={`badge ${cold.tone}`}>{cold.label}</span></td>
+          <td class="ctacell"><CTAButton product={p} label="Check price" /></td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
+<style>
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>

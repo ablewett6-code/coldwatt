@@ -1,0 +1,62 @@
+---
+/**
+ * PRIVACY POLICY — TEMPLATE. Not legal advice.
+ * Review it (ideally with a lawyer or a reputable generator) before launch,
+ * and update it whenever you add analytics, ads, a newsletter or comments.
+ */
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE } from '../site.config';
+
+// Keep this list honest — only list what the site actually uses.
+const ANALYTICS = 'Cloudflare Web Analytics'; // cookieless; change if you switch
+const NEWSLETTER = false; // set true if you add an email signup
+---
+<PageLayout
+  title="Privacy Policy"
+  description={`What information ${SITE.name} collects, how it's used, and the choices you have.`}
+  updated={SITE.legalUpdated}
+>
+  <p>This policy explains what information {SITE.name} ("we", "us") collects when you visit <a href="/">{SITE.url.replace('https://', '')}</a>, and what we do with it. The site is operated by {SITE.legalName}, based in {SITE.legalRegion}.</p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li>We don't sell your personal information.</li>
+    <li>We don't require an account, and we don't run ads.</li>
+    <li>We use privacy-friendly analytics that don't set tracking cookies.</li>
+    <li>When you click through to a store, that store (and its affiliate network) may set cookies to credit us for the referral.</li>
+  </ul>
+
+  <h2>Information we collect</h2>
+  <h3>Analytics</h3>
+  <p>We use {ANALYTICS} to understand which pages are useful. It records aggregated data such as page views, referring sites, general location (country), device type and browser. It does not use cookies or collect information that identifies you personally.</p>
+
+  <h3>Server and security logs</h3>
+  <p>Our hosting provider, Cloudflare, processes technical data such as IP addresses to deliver the site and protect it from abuse. When you click a "Check price" link, your country (derived from your IP address) is used momentarily to send you to the right regional store. We don't store it.</p>
+
+  <h3>Information you send us</h3>
+  <p>If you email us, we keep your message and email address only as long as needed to reply and keep a record of the conversation.</p>
+  {NEWSLETTER && (
+    <>
+      <h3>Newsletter</h3>
+      <p>If you subscribe, we store your email address with our email provider to send you updates. Every email includes an unsubscribe link.</p>
+    </>
+  )}
+
+  <h2>Affiliate links and third-party cookies</h2>
+  <p>Many links on this site are affiliate links. When you click one, you leave our site, and the retailer or affiliate network may place cookies on your device to track that the sale came from us. Their privacy policies — not ours — govern that data. See our <a href="/affiliate-disclosure/">affiliate disclosure</a> for more.</p>
+
+  <h2>Where your information is processed</h2>
+  <p>Our service providers may process data in Canada, the United States or other countries. Those countries' laws may differ from where you live.</p>
+
+  <h2>Your rights</h2>
+  <p>Depending on where you live — including under Canada's Personal Information Protection and Electronic Documents Act (PIPEDA) and U.S. state privacy laws — you may have the right to access, correct or delete personal information we hold about you. Email <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a> and we'll respond within 30 days.</p>
+
+  <h2>Children</h2>
+  <p>This site isn't directed at children under 13, and we don't knowingly collect their information.</p>
+
+  <h2>Changes</h2>
+  <p>We'll update the date at the top of this page when this policy changes. Significant changes will be noted on the homepage for 30 days.</p>
+
+  <h2>Contact</h2>
+  <p>{SITE.legalName}<br />{SITE.legalRegion}<br /><a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a></p>
+</PageLayout>

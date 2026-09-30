@@ -1,0 +1,50 @@
+---
+title: "Winter Power Station Runtime Calculator"
+seoTitle: "Power Station Runtime Calculator for Winter Outages"
+description: "How long will a power station run your furnace fan, fridge and lights in a winter outage? Free calculator that accounts for cold batteries."
+template: tool
+publishDate: 2026-09-29
+faqs:
+  - q: "How long will a 1,000 Wh power station run a furnace?"
+    a: "It depends mostly on the blower motor. A furnace fan drawing around 450 W that runs half the time averages about 225 W, so a 1,000 Wh unit kept indoors lasts roughly 3 to 3.5 hours after inverter losses. Newer ECM blower motors draw far less and can stretch that considerably. Use the calculator with your furnace's nameplate numbers."
+  - q: "Why does cold weather reduce runtime?"
+    a: "Lithium batteries deliver less of their stored energy when cold, because the chemical reactions inside slow down. The energy isn't destroyed — a battery that warms back up recovers most of it — but you can't use it while it's cold. That's why keeping the power station inside the heated part of the house matters."
+  - q: "Can I leave a power station outside or in the garage during an outage?"
+    a: "Check the manufacturer's operating temperature range first. Some units are rated to run only down to −10°C, and most lithium batteries shouldn't be charged below 0°C. Keeping the unit indoors and running an extension cord to what you need is the safer approach."
+  - q: "Is it safe to power my furnace with a portable power station?"
+    a: "Gas furnaces need electricity for the blower and controls, and many people run them from a power station during outages. How you connect it matters: hard-wired furnaces need a proper transfer switch or inlet installed by a licensed electrician. Never backfeed a house through an outlet."
+sources:
+  - title: "Jackery Explorer 1000 v2 — official specifications (Jackery Canada)"
+    url: "https://ca.jackery.com/products/jackery-explorer-1000-v2-portable-power-station"
+  - title: "EcoFlow DELTA 3 Plus — official specifications (EcoFlow Canada)"
+    url: "https://ca.ecoflow.com/products/delta-3-plus-portable-power-station"
+todo:
+  - "The 50% cold factor at −30°C and other factors are rule-of-thumb estimates. If you find a good published source (battery maker data sheet or study), link it in sources."
+  - "Consider adding a 'measure your furnace' section once you've checked your own furnace nameplate."
+---
+
+import RuntimeCalculator from '../../../components/RuntimeCalculator.astro';
+
+Pick a power station, tell the calculator where the battery will sit, and tick the things you need to keep running. Results update as you type.
+
+<RuntimeCalculator />
+
+## How to get accurate numbers
+
+The defaults above are typical values, not your values. Two minutes of checking will make the estimate much better:
+
+- **Furnace blower:** look for the sticker inside the furnace's front panel. It lists the blower motor's amps. Multiply amps by 120 to get watts (a 4 A motor ≈ 480 W). If the label says "ECM" or "variable speed," your blower probably draws far less.
+- **Fridge:** the sticker inside the door or on the back lists amps or watts. That number is the compressor's peak; it only runs part of the time, which is what the "% on" column captures.
+- **Everything else:** the power brick or nameplate usually lists watts or amps.
+
+## Why the battery's temperature changes everything
+
+Lithium batteries give back less energy when they're cold. A power station sitting in a −20°C garage might deliver only around two-thirds of what it would indoors — and some units stop working entirely below their rated minimum. Jackery, for example, rates the Explorer 1000 v2 to operate down to −10°C and to charge only at 0°C or warmer.
+
+The practical rule: **keep the power station in the heated part of the house** and run a heavy-duty extension cord to whatever needs power.
+
+## What the calculator doesn't know
+
+It can't account for your battery's age, how warm the unit was before the outage, or startup surges from motors. Treat the result as a planning estimate and build in a margin — if the calculator says 10 hours, plan for 7 or 8.
+
+Want the full picture on cold limits for each model? See the [cold-weather spec database](/tools/cold-weather-power-station-specs/).

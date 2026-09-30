@@ -1,0 +1,22 @@
+---
+import CTAButton from './CTAButton.astro';
+import type { Product } from '../lib/products';
+interface Props { product: Product }
+const { product } = Astro.props;
+---
+<div class="sticky-cta" id="sticky-cta" aria-hidden="true">
+  <span class="n">{product.data.name}</span>
+  <CTAButton product={product} label="Check price" />
+</div>
+<script>
+  // Show the mobile buy bar once the reader scrolls past the verdict box.
+  const bar = document.getElementById('sticky-cta');
+  const anchor = document.querySelector('.verdict') ?? document.querySelector('h1');
+  if (bar && anchor && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => {
+      const past = !e.isIntersecting && e.boundingClientRect.top < 0;
+      bar.classList.toggle('show', past);
+      bar.setAttribute('aria-hidden', String(!past));
+    }).observe(anchor);
+  }
+</script>

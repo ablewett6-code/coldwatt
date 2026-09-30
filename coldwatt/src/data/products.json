@@ -1,0 +1,83 @@
+[
+  {
+    "id": "ecoflow-delta-3-plus",
+    "brand": "EcoFlow",
+    "name": "EcoFlow DELTA 3 Plus",
+    "category": "power-station",
+    "bestFor": "Home backup and cabins that need to run bigger loads",
+    "shortVerdict": "High output, fast UPS switchover and expandable capacity make it the most flexible pick for winter outages.",
+    "specs": {
+      "capacityWh": 1024,
+      "outputW": 1800,
+      "surgeW": 3600,
+      "solarInputW": 1000,
+      "chemistry": "LiFePO4",
+      "weightLb": 27.6,
+      "acOutlets": 6,
+      "upsMs": 10,
+      "chargeTempMinC": null,
+      "dischargeTempMinC": null,
+      "expandable": true
+    },
+    "specsVerified": true,
+    "specsSource": "https://ca.ecoflow.com/products/delta-3-plus-portable-power-station",
+    "links": {
+      "us": { "url": "https://us.ecoflow.com/", "merchant": "EcoFlow", "network": "TBD", "affiliate": false },
+      "ca": { "url": "https://ca.ecoflow.com/products/delta-3-plus-portable-power-station", "merchant": "EcoFlow Canada", "network": "TBD", "affiliate": false }
+    }
+  },
+  {
+    "id": "jackery-explorer-1000-v2",
+    "brand": "Jackery",
+    "name": "Jackery Explorer 1000 v2",
+    "category": "power-station",
+    "bestFor": "Grab-and-go backup and three-season camping",
+    "shortVerdict": "Lighter than rivals at this capacity, with clearly published cold-weather limits — a rare plus.",
+    "specs": {
+      "capacityWh": 1070,
+      "outputW": 1500,
+      "surgeW": null,
+      "solarInputW": null,
+      "chemistry": null,
+      "weightLb": 24.2,
+      "acOutlets": 3,
+      "upsMs": 20,
+      "chargeTempMinC": 0,
+      "dischargeTempMinC": -10,
+      "expandable": null
+    },
+    "specsVerified": true,
+    "specsSource": "https://ca.jackery.com/products/jackery-explorer-1000-v2-portable-power-station",
+    "links": {
+      "us": { "url": "https://www.jackery.com/", "merchant": "Jackery", "network": "TBD", "affiliate": false },
+      "ca": { "url": "https://ca.jackery.com/products/jackery-explorer-1000-v2-portable-power-station", "merchant": "Jackery Canada", "network": "TBD", "affiliate": false }
+    }
+  },
+  {
+    "id": "bluetti-elite-30-v2",
+    "brand": "BLUETTI",
+    "name": "BLUETTI Elite 30 V2",
+    "category": "power-station",
+    "bestFor": "Keeping phones, lights and a CPAP going on a budget",
+    "shortVerdict": "Small and cheap — fine for small electronics, not for heaters or a furnace.",
+    "specs": {
+      "capacityWh": 288,
+      "outputW": 600,
+      "surgeW": 1500,
+      "solarInputW": null,
+      "chemistry": "LiFePO4",
+      "weightLb": 9.5,
+      "acOutlets": null,
+      "upsMs": null,
+      "chargeTempMinC": null,
+      "dischargeTempMinC": null,
+      "expandable": null
+    },
+    "specsVerified": true,
+    "specsSource": "https://www.bluettipower.ca/products/elite-30-v2-portable-power-station",
+    "links": {
+      "us": { "url": "https://www.bluettipower.com/", "merchant": "BLUETTI", "network": "TBD", "affiliate": false },
+      "ca": { "url": "https://www.bluettipower.ca/products/elite-30-v2-portable-power-station", "merchant": "BLUETTI Canada", "network": "TBD", "affiliate": false }
+    }
+  }
+]

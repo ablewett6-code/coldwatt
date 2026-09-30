@@ -1,0 +1,24 @@
+---
+import { AFFILIATE_REL, goUrl } from '../lib/products';
+import type { Product } from '../lib/products';
+
+interface Props {
+  product: Product;
+  label?: string;
+  variant?: 'primary' | 'ghost';
+  block?: boolean;
+  store?: 'amazon';
+}
+const { product, label, variant = 'primary', block = false, store } = Astro.props;
+const merchant = store === 'amazon' ? 'Amazon' : product.data.links.us.merchant.replace(/ Canada$/, '');
+const text = label ?? `Check price at ${merchant}`;
+---
+<a
+  class:list={['cta', { ghost: variant === 'ghost', block }]}
+  href={goUrl(product.id, store)}
+  rel={AFFILIATE_REL}
+  target="_blank"
+  data-product={product.id}
+>
+  {text} <span aria-hidden="true">→</span>
+</a>

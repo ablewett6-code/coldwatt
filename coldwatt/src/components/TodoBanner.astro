@@ -1,0 +1,12 @@
+---
+/** Yellow banner listing things to verify before publishing. Only renders in `npm run dev`. */
+interface Props { items: string[]; draft?: boolean }
+const { items, draft = false } = Astro.props;
+const show = import.meta.env.DEV && (items.length > 0 || draft);
+---
+{show && (
+  <div class="todo-banner" role="note">
+    <strong>Editor note (only visible in dev){draft ? ' — this page is a DRAFT and will not be published' : ''}:</strong>
+    {items.length > 0 && <ul>{items.map((i) => <li>{i}</li>)}</ul>}
+  </div>
+)}

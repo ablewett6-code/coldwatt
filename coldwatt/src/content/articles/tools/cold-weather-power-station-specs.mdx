@@ -1,0 +1,48 @@
+---
+title: "Cold-Weather Specs for Portable Power Stations"
+seoTitle: "Power Station Cold-Weather Specs: Charging Temps"
+description: "Which power stations can charge below freezing? Minimum charging and operating temperatures for popular models, straight from manufacturer spec sheets."
+template: tool
+publishDate: 2026-09-29
+faqs:
+  - q: "Can you charge a power station below freezing?"
+    a: "Usually not. Most power stations use lithium batteries that shouldn't be charged below 0°C, and many units will refuse to charge when they detect cold. Bring the unit into a heated space to charge. A few batteries include built-in heaters — check the spec sheet for that specific model."
+  - q: "What's the difference between charging and operating temperature?"
+    a: "Operating (or discharging) temperature is the range in which the unit can power your devices. Charging temperature is the range in which it can safely refill its battery. The charging range is almost always narrower, with a higher minimum."
+  - q: "Why do some models say 'Not published'?"
+    a: "Some manufacturers don't list cold-weather limits on their product pages. We only show numbers the manufacturer publishes. If you need that information, ask the brand's support team before buying, and treat an unpublished limit as a reason to keep the unit indoors."
+sources:
+  - title: "Jackery Explorer 1000 v2 — official specifications (Jackery Canada)"
+    url: "https://ca.jackery.com/products/jackery-explorer-1000-v2-portable-power-station"
+  - title: "EcoFlow DELTA 3 Plus — official specifications (EcoFlow Canada)"
+    url: "https://ca.ecoflow.com/products/delta-3-plus-portable-power-station"
+  - title: "BLUETTI Elite 30 V2 — official specifications (BLUETTI Canada)"
+    url: "https://www.bluettipower.ca/products/elite-30-v2-portable-power-station"
+todo:
+  - "Grow this table — it's the page other sites will link to. Aim for 15–25 models. For each, copy temps from the official spec sheet or user manual (PDF manuals often list temps when product pages don't)."
+  - "EcoFlow and BLUETTI don't list temperatures on their product pages. Check their user manuals and fill in chargeTempMinC / dischargeTempMinC in src/data/products.json."
+---
+
+import ColdSpecDatabase from '../../../components/ColdSpecDatabase.astro';
+
+Before you buy a power station for winter, check two numbers: **the lowest temperature it can charge at** and **the lowest temperature it can run at**. Most product pages bury them — or leave them out entirely. This table collects them in one place, with a link to each manufacturer's spec sheet.
+
+<ColdSpecDatabase />
+
+<p class="small muted">"Not published" means the manufacturer's product page doesn't list it. We never estimate these numbers. Spotted a newer spec? <a href="/contact/">Tell us</a>.</p>
+
+## How to read this table
+
+**Lowest charging temperature** is the one that catches people out. Lithium batteries — including the LiFePO4 chemistry used in most modern power stations — can be damaged if they're charged while frozen, so most units block charging below about 0°C. In practice, that means a power station left in a cold garage or truck can't be topped up by solar panels or a wall outlet until it warms up.
+
+**Lowest operating temperature** is how cold it can get while the unit still powers your devices. Below that, the battery management system will usually shut the unit off to protect the cells.
+
+Neither number is a hard cliff. Even above the minimum, a cold battery delivers noticeably less energy than a warm one. Our [winter runtime calculator](/tools/winter-runtime-calculator/) factors that in.
+
+## What this means for real winter use
+
+- **Home backup:** keep the power station in the heated part of the house. Run an extension cord to the fridge or a properly installed furnace inlet rather than moving the unit into the cold.
+- **Cabins:** if the cabin cools down between visits, the power station will too. Plan to warm the unit before charging, or look for a battery with a built-in heater.
+- **Winter camping and vehicles:** insulate the unit (a cooler or insulated bag works) and bring it inside the tent or cab at night. Never cover vents while it's running.
+
+For the chemistry behind all this, read [can you charge a LiFePO4 battery below freezing?](/power-stations/can-you-charge-lifepo4-below-freezing/)

@@ -1,0 +1,13 @@
+---
+interface Props { author: { id: string; data: { name: string; role: string; bio: string } } }
+const { author } = Astro.props;
+const initials = author.data.name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean).map((w) => w[0]).slice(0, 2).join('') || '?';
+---
+<aside class="authorbox" aria-label="About the author">
+  <div class="av" aria-hidden="true">{initials}</div>
+  <div>
+    <strong>{author.data.name}</strong> <span class="muted small">· {author.data.role}</span>
+    <p>{author.data.bio}</p>
+    <p><a href="/how-we-research/">How we research our guides →</a></p>
+  </div>
+</aside>

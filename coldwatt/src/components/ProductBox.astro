@@ -1,0 +1,14 @@
+---
+/** Drop a product box into any MDX article: <ProductBox id="ecoflow-delta-3-plus" /> */
+import { getEntry, getCollection } from 'astro:content';
+import ProductCard from './ProductCard.astro';
+
+interface Props { id: string; award?: string }
+const { id, award } = Astro.props;
+const product = await getEntry('products', id);
+if (!product) throw new Error(`ProductBox: no product with id "${id}" in src/data/products.json`);
+const guide = (await getCollection('articles', (a) => a.data.template === 'product' && a.data.product?.id === id))[0];
+---
+<ProductCard product={product} award={award} guidePath={guide ? `/${guide.id}/` : undefined}>
+  <slot>{product.data.shortVerdict && <p>{product.data.shortVerdict}</p>}</slot>
+</ProductCard>

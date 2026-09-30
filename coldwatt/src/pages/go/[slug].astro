@@ -1,0 +1,37 @@
+---
+/**
+ * Static fallback for /go/[product]/ links.
+ * On Cloudflare Pages, functions/go/[slug].js handles these server-side (by IP country).
+ * Everywhere else (local preview, other hosts), this page redirects in the browser,
+ * guessing Canada from the visitor's time zone.
+ */
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map((p) => ({ params: { slug: p.id }, props: { product: p } }));
+}
+
+const { product } = Astro.props;
+const us = product.data.links.us.url;
+const ca = product.data.links.ca.url;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirecting to {product.data.links.us.merchant}…</title>
+    <noscript><meta http-equiv="refresh" content={`0;url=${us}`} /></noscript>
+    <script is:inline define:vars={{ us, ca }}>
+      var tz = '';
+      try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+      var caZones = /^(America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Montreal|Moncton|Glace_Bay|Goose_Bay|Whitehorse|Dawson|Dawson_Creek|Yellowknife|Iqaluit|Rankin_Inlet|Resolute|Cambridge_Bay|Inuvik|Swift_Current|Creston|Fort_Nelson|Atikokan|Blanc-Sablon|Nipigon|Thunder_Bay|Rainy_River|Pangnirtung))$/;
+      window.location.replace(caZones.test(tz) ? ca : us);
+    </script>
+  </head>
+  <body>
+    <p>Taking you to the store… <a href={us} rel="sponsored nofollow">US store</a> · <a href={ca} rel="sponsored nofollow">Canadian store</a></p>
+  </body>
+</html>

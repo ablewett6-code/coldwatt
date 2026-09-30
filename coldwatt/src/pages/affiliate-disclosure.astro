@@ -1,0 +1,35 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE } from '../site.config';
+
+// Flip to true once you're approved for Amazon Associates — Amazon requires this exact sentence.
+const AMAZON_ASSOCIATE = false;
+---
+<PageLayout
+  title="Affiliate Disclosure"
+  description={`How ${SITE.name} makes money, which affiliate programs we use, and how we keep recommendations independent.`}
+  updated={SITE.legalUpdated}
+>
+  <p>{SITE.name} is free to read. We pay for it through <strong>affiliate commissions</strong>: when you click a link to a retailer on our site and buy something, the retailer may pay us a small percentage of the sale. You pay the same price either way.</p>
+
+  <h2>What this means for you</h2>
+  <ul>
+    <li><strong>You never pay more.</strong> Commissions come out of the retailer's margin, not your pocket.</li>
+    <li><strong>Brands can't buy a spot.</strong> No company pays to be included, ranked higher, or described more favourably. Brands don't see our content before it's published.</li>
+    <li><strong>We recommend products we'd earn nothing on.</strong> If the best option for a situation has no affiliate program, we still recommend it.</li>
+    <li><strong>We tell you when we haven't used something.</strong> Our guides are research-based unless a page clearly says we've used the product ourselves. See <a href="/how-we-research/">how we research</a>.</li>
+  </ul>
+
+  <h2>Which links are affiliate links?</h2>
+  <p>Assume any link that takes you to a store — especially "Check price" buttons and links that pass through <code>{SITE.url.replace('https://', '')}/go/…</code> — is an affiliate link. Links to manufacturer spec sheets, studies and other reference sources are not.</p>
+  <p>Affiliate programs we work with may include brand programs (such as EcoFlow, Jackery, BLUETTI, Anker SOLIX, Goal Zero and Renogy) and affiliate networks (such as Impact, Awin, CJ, AvantLink and ShareASale). This list changes as we join or leave programs.</p>
+  {AMAZON_ASSOCIATE && <p><strong>As an Amazon Associate, we earn from qualifying purchases.</strong></p>}
+
+  <h2>Free products and loans</h2>
+  <p>If a brand ever lends or gives us a product to test, the page about that product will say so clearly near the top. Receiving a product never guarantees coverage or a positive write-up.</p>
+
+  <h2>Why we tell you this</h2>
+  <p>We think you deserve to know how a site makes money before trusting its recommendations. It's also the law: in the United States, the Federal Trade Commission's Endorsement Guides require clear disclosure of material connections, and in Canada, the Competition Act prohibits misleading representations, including undisclosed paid relationships.</p>
+
+  <p>Questions? Email <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.</p>
+</PageLayout>

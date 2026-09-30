@@ -1,0 +1,209 @@
+---
+import { getCollection, getEntries, getEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Disclosure from '../components/Disclosure.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import ProductCard from '../components/ProductCard.astro';
+import SpecTable from '../components/SpecTable.astro';
+import ProsCons from '../components/ProsCons.astro';
+import FAQ from '../components/FAQ.astro';
+import AuthorBox from '../components/AuthorBox.astro';
+import Sources from '../components/Sources.astro';
+import CTAButton from '../components/CTAButton.astro';
+import StickyCTA from '../components/StickyCTA.astro';
+import TodoBanner from '../components/TodoBanner.astro';
+import { getSilo } from '../site.config';
+import * as S from '../lib/schema';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { entry: CollectionEntry<'articles'> }
+const { entry } = Astro.props;
+const d = entry.data;
+const [siloSlug] = entry.id.split('/');
+const silo = getSilo(siloSlug)!;
+const path = `/${entry.id}/`;
+
+// `author` can arrive as a plain id (when the default applies) or as a reference object.
+const authorId = typeof d.author === 'string' ? d.author : d.author.id;
+const author = await getEntry('authors', authorId);
+if (!author) throw new Error(`Unknown author "${authorId}" — add it to src/data/authors.json`);
+const product = d.product ? await getEntry(d.product) : undefined;
+const products = d.products.length ? await getEntries(d.products) : [];
+const winners = await Promise.all(
+  d.winners.map(async (w) => ({ ...w, product: await getEntry(w.winner) }))
+);
+
+// Map product id → its own guide page, so roundups can link down to them.
+const all = await getCollection('articles', (a) => !(import.meta.env.PROD && a.data.draft));
+const guideFor = Object.fromEntries(
+  all.filter((a) => a.data.template === 'product' && a.data.product).map((a) => [a.data.product!.id, `/${a.id}/`])
+);
+const related = all
+  .filter((a) => a.id !== entry.id && a.id.startsWith(`${siloSlug}/`))
+  .slice(0, 3);
+
+// Show the disclosure on every article: tools and MDX components can add buy buttons
+// that aren't visible in frontmatter, and an extra disclosure never hurts compliance.
+const hasAffiliateLinks = true;
+const templateLabel = {
+  product: 'Specs & buyer\'s guide',
+  roundup: 'Buying guide',
+  vs: 'Comparison',
+  guide: 'Guide',
+  tool: 'Free tool',
+}[d.template];
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: silo.name, path: `/${silo.slug}/` },
+  { name: d.title, path },
+];
+
+const schema: object[] = [
+  S.breadcrumbs(crumbs),
+  S.article({
+    title: d.title,
+    description: d.description,
+    path,
+    published: d.publishDate,
+    updated: d.updatedDate,
+    author: { id: author.id, name: author.data.name, sameAs: author.data.sameAs },
+    image: d.heroImage,
+  }),
+];
+if (product) schema.push(S.product(product, path));
+if (d.template === 'roundup' && products.length) {
+  schema.push(S.itemList(products.map((p) => ({ name: p.data.name, path: guideFor[p.id] ?? `${path}#${p.id}` }))));
+}
+if (d.template === 'tool') schema.push(S.webApplication(d.title, path, d.description));
+if (d.faqs.length) schema.push(S.faqPage(d.faqs));
+
+const fmt = (date: Date) => date.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const showAside = d.template === 'product' && product;
+---
+<BaseLayout
+  title={d.seoTitle ?? d.title}
+  description={d.description}
+  schema={schema}
+  ogType="article"
+  ogImage={d.heroImage}
+  publishedTime={d.publishDate}
+  modifiedTime={d.updatedDate}
+  noindex={d.draft}
+>
+  <div class="wrap">
+    <Breadcrumbs items={crumbs} />
+    <TodoBanner items={d.todo} draft={d.draft} />
+
+    <header class="article-head">
+      <p class="small muted" style="margin:1rem 0 0;text-transform:uppercase;letter-spacing:.06em;font-weight:700">{templateLabel}</p>
+      <h1>{d.title}</h1>
+      <p class="lede">{d.description}</p>
+      <div class="byline">
+        <span>By <strong><a href="/about/">{author.data.name}</a></strong></span>
+        {d.updatedDate
+          ? <span>Updated <time datetime={d.updatedDate.toISOString()}>{fmt(d.updatedDate)}</time></span>
+          : <span>Published <time datetime={d.publishDate.toISOString()}>{fmt(d.publishDate)}</time></span>}
+        {(d.template === 'product' || d.template === 'roundup' || d.template === 'vs') && !product?.data.testedByUs && (
+          <span><a href="/how-we-research/">Research-based: specs verified against manufacturer data</a></span>
+        )}
+      </div>
+      {hasAffiliateLinks && <Disclosure />}
+    </header>
+
+    <div class:list={['article-grid', { 'has-aside': showAside }]}>
+      <div>
+        {/* ── PRODUCT GUIDE: verdict first ── */}
+        {d.template === 'product' && product && (
+          <section class="verdict prose">
+            <h2>The short answer</h2>
+            <p>{d.verdict ?? product.data.shortVerdict}</p>
+            {product.data.bestFor && <p class="small"><strong>Best for:</strong> {product.data.bestFor}</p>}
+            <CTAButton product={product} />
+          </section>
+        )}
+
+        {/* ── ROUNDUP: table at the top, cards below content intro ── */}
+        {d.template === 'roundup' && products.length > 0 && (
+          <>
+            {d.verdict && <section class="verdict prose"><h2>Quick picks</h2><p>{d.verdict}</p></section>}
+            <ComparisonTable products={products} awards={d.awards} />
+          </>
+        )}
+
+        {/* ── VS: winners by use case ── */}
+        {d.template === 'vs' && (
+          <>
+            {d.verdict && <section class="verdict prose"><h2>The short answer</h2><p>{d.verdict}</p></section>}
+            {products.length > 0 && <ComparisonTable products={products} caption="Side by side" />}
+            {winners.length > 0 && (
+              <section class="prose">
+                <h2>Which one wins for…</h2>
+                <div class="winners">
+                  {winners.map((w) => (
+                    <div class="winner">
+                      <span class="uc">{w.useCase}</span>
+                      <span class="w">{w.product.data.name}</span>
+                      <span class="small">{w.why}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
+        )}
+
+        <div class="prose">
+          <slot />
+        </div>
+
+        {d.template === 'roundup' && products.length > 0 && (
+          <section>
+            <h2 class="prose">The picks in detail</h2>
+            {products.map((p, i) => (
+              <ProductCard product={p} award={d.awards[p.id]} guidePath={guideFor[p.id]} rank={i + 1}>
+                {p.data.shortVerdict && <p>{p.data.shortVerdict}</p>}
+              </ProductCard>
+            ))}
+          </section>
+        )}
+
+        {d.template === 'product' && product && (
+          <section class="prose">
+            <h2>Full specifications</h2>
+            <SpecTable product={product} />
+          </section>
+        )}
+
+        <div class="prose"><ProsCons pros={d.pros} cons={d.cons} /></div>
+        <FAQ faqs={d.faqs} />
+        <Sources sources={d.sources} />
+        <AuthorBox author={author} />
+
+        {related.length > 0 && (
+          <section>
+            <h2>More in {silo.name}</h2>
+            <ul class="grid-cards">
+              {related.map((r) => (
+                <li><a class="card" href={`/${r.id}/`}><h3>{r.data.title}</h3><p>{r.data.description}</p></a></li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
+      {showAside && product && (
+        <aside>
+          <div class="aside-sticky aside-box">
+            <h2>{product.data.name}</h2>
+            <p class="small muted">{product.data.bestFor}</p>
+            <SpecTable product={product} />
+            <CTAButton product={product} block />
+          </div>
+        </aside>
+      )}
+    </div>
+  </div>
+  {product && <StickyCTA product={product} />}
+</BaseLayout>

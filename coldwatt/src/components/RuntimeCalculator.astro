@@ -1,0 +1,173 @@
+---
+/**
+ * Winter runtime calculator. Vanilla JS, no framework (~4 KB).
+ * Usage in MDX: <RuntimeCalculator />
+ *
+ * Model: runtime (h) = capacity × usable depth × inverter efficiency × cold factor ÷ average load
+ * Every assumption is shown to the reader under the result.
+ */
+import { getCollection } from 'astro:content';
+import { goUrl, AFFILIATE_REL } from '../lib/products';
+
+const all = (await getCollection('products', (p) => p.data.category === 'power-station' && p.data.status === 'active'))
+  .filter((p) => p.data.specs.capacityWh)
+  .sort((a, b) => (a.data.specs.capacityWh ?? 0) - (b.data.specs.capacityWh ?? 0))
+  .map((p) => ({
+    id: p.id,
+    name: p.data.name,
+    wh: p.data.specs.capacityWh,
+    out: p.data.specs.outputW,
+    minC: p.data.specs.dischargeTempMinC,
+    go: goUrl(p.id),
+  }));
+const products = all;
+// Default to the first model big enough for a furnace (≥1,000 Wh) so the first result is realistic.
+const defaultId = (all.find((p) => (p.wh ?? 0) >= 1000) ?? all[all.length - 1])?.id;
+
+// Typical loads — deliberately conservative defaults. Readers can edit every number.
+const loads = [
+  { id: 'furnace', name: 'Furnace blower fan', w: 450, duty: 50, on: true, note: 'Older PSC motors ~400–700 W; newer ECM ~100–300 W' },
+  { id: 'fridge', name: 'Fridge', w: 150, duty: 35, on: true, note: 'Compressor cycles on and off' },
+  { id: 'lights', name: 'LED lights (a few)', w: 30, duty: 100, on: true, note: '' },
+  { id: 'router', name: 'Wi-Fi router + phones', w: 25, duty: 100, on: true, note: '' },
+  { id: 'sump', name: 'Sump pump', w: 800, duty: 10, on: false, note: 'Varies a lot with water level' },
+  { id: 'cpap', name: 'CPAP (humidifier off)', w: 40, duty: 100, on: false, note: 'Check your machine’s manual' },
+  { id: 'heater', name: 'Electric space heater', w: 1500, duty: 60, on: false, note: 'Drains any power station in hours' },
+];
+---
+<div class="tool" id="runtime-calc">
+  <fieldset>
+    <legend>1. Your power station</legend>
+    <div class="row">
+      <div>
+        <label for="rc-model">Model</label>
+        <select id="rc-model">
+          {products.map((p) => <option value={p.id} selected={p.id === defaultId}>{p.name} ({p.wh} Wh)</option>)}
+          <option value="custom">Other / custom capacity</option>
+        </select>
+      </div>
+      <div id="rc-custom-wrap" hidden>
+        <label for="rc-custom">Capacity (Wh)</label>
+        <input id="rc-custom" type="number" inputmode="numeric" min="50" step="10" value="1000" />
+      </div>
+      <div>
+        <label for="rc-temp">Where the battery will sit</label>
+        <select id="rc-temp">
+          <option value="20">Indoors, heated (~20°C)</option>
+          <option value="0">Unheated room or garage (~0°C)</option>
+          <option value="-10">Cold cabin or vehicle (~−10°C)</option>
+          <option value="-20">Outside, cold night (~−20°C)</option>
+          <option value="-30">Outside, deep cold (~−30°C)</option>
+        </select>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>2. What you need to run</legend>
+    <p class="small muted" style="margin:-.2rem 0 .7rem">Edit the watts and “% of time running” to match your gear — check the nameplate sticker for real numbers.</p>
+    <div class="loads">
+      <div class="load small muted" aria-hidden="true"><span>Device</span><span>Watts</span><span>% on</span></div>
+      {loads.map((l) => (
+        <div class="load" data-load={l.id}>
+          <label title={l.note}><input type="checkbox" checked={l.on} />{l.name}</label>
+          <input type="number" inputmode="numeric" min="0" step="5" value={l.w} aria-label={`${l.name} watts`} />
+          <input type="number" inputmode="numeric" min="1" max="100" step="5" value={l.duty} aria-label={`${l.name} percent of time running`} />
+        </div>
+      ))}
+    </div>
+  </fieldset>
+
+  <div class="result" id="rc-result" aria-live="polite">
+    <div class="big" id="rc-hours">—</div>
+    <div class="sub" id="rc-sub"></div>
+    <div id="rc-warn" class="small" style="margin-top:.6rem"></div>
+  </div>
+
+  <div id="rc-compare" style="margin-top:1.2rem"></div>
+
+  <p class="assumptions" id="rc-assumptions"></p>
+</div>
+
+<script define:vars={{ products, AFFILIATE_REL }}>
+  (function () {
+    var root = document.getElementById('runtime-calc');
+    if (!root) return;
+    var $ = function (id) { return document.getElementById(id); };
+    var INVERTER = 0.85;   // typical AC inverter efficiency
+    var USABLE = 0.9;      // battery management keeps a reserve
+    // Rough planning factors for LiFePO4 capacity at battery temperature. Not measured data.
+    var COLD = { '20': 1.0, '0': 0.9, '-10': 0.8, '-20': 0.65, '-30': 0.5 };
+
+    function fmtHours(h) {
+      if (!isFinite(h)) return '—';
+      if (h >= 48) return (h / 24).toFixed(1) + ' days';
+      var hh = Math.floor(h), mm = Math.round((h - hh) * 60);
+      if (mm === 60) { hh++; mm = 0; }
+      return hh + ' h ' + (mm ? mm + ' min' : '');
+    }
+
+    function calc() {
+      var id = $('rc-model').value;
+      $('rc-custom-wrap').hidden = id !== 'custom';
+      var p = products.find(function (x) { return x.id === id; });
+      var wh = p ? p.wh : Math.max(0, +$('rc-custom').value || 0);
+      var tempKey = $('rc-temp').value;
+      var temp = +tempKey;
+      var factor = COLD[tempKey];
+
+      var avg = 0, peak = 0, rows = root.querySelectorAll('[data-load]');
+      rows.forEach(function (row) {
+        var inputs = row.querySelectorAll('input');
+        if (!inputs[0].checked) return;
+        var w = Math.max(0, +inputs[1].value || 0);
+        var duty = Math.min(100, Math.max(0, +inputs[2].value || 0)) / 100;
+        avg += w * duty;
+        peak += w;
+      });
+
+      var usable = wh * USABLE * INVERTER * factor;
+      var hours = avg > 0 ? usable / avg : Infinity;
+      var warn = [];
+      var belowFloor = p && p.minC !== null && temp < p.minC;
+      if (belowFloor) {
+        hours = 0;
+        warn.push('⚠️ The manufacturer rates this unit to operate down to ' + p.minC + '°C. At ' + temp + '°C it will likely shut itself off. Keep it inside the heated space.');
+      }
+      if (p && p.out && peak > p.out) {
+        warn.push('⚠️ If everything runs at once you’d draw ~' + Math.round(peak) + ' W, above this unit’s ' + p.out + ' W output. Stagger big loads or pick a larger unit.');
+      }
+      if (temp <= 0 && !belowFloor) {
+        warn.push('Most LiFePO4 batteries can’t safely recharge below 0°C. Bring it indoors to charge.');
+      }
+
+      $('rc-hours').textContent = avg === 0 ? 'Pick at least one device' : belowFloor ? 'Won’t run at this temperature' : '≈ ' + fmtHours(hours);
+      $('rc-sub').textContent = avg === 0 ? '' : 'Average draw ≈ ' + Math.round(avg) + ' W · usable energy ≈ ' + Math.round(usable) + ' Wh';
+      $('rc-warn').innerHTML = warn.map(function (w) { return '<p style="margin:.3rem 0">' + w + '</p>'; }).join('');
+      $('rc-result').classList.toggle('warn', warn.length > 0 && warn[0].charAt(0) === '⚠');
+
+      // How every listed model would do with the same loads
+      if (avg > 0) {
+        var html = '<h3 style="margin:0 0 .5rem;font-size:1rem">Same loads, other models</h3><div class="loads">';
+        products.forEach(function (x) {
+          var off = x.minC !== null && temp < x.minC;
+          var h = off ? 0 : (x.wh * USABLE * INVERTER * factor) / avg;
+          html += '<div class="load" style="grid-template-columns:minmax(0,1fr) auto"><span>' + x.name + ' — <strong>' + (off ? 'shuts off' : '≈ ' + fmtHours(h)) + '</strong></span>' +
+            '<a class="cta" style="min-height:36px;padding:.4rem .8rem;font-size:.85rem" href="' + x.go + '" rel="' + AFFILIATE_REL + '" target="_blank">Check price</a></div>';
+        });
+        $('rc-compare').innerHTML = html + '</div>';
+      } else {
+        $('rc-compare').innerHTML = '';
+      }
+
+      $('rc-assumptions').textContent =
+        'Assumptions: ' + Math.round(USABLE * 100) + '% of rated capacity is usable, ' + Math.round(INVERTER * 100) +
+        '% inverter efficiency, and a cold-temperature factor of ' + Math.round(factor * 100) + '% for a battery at ' + temp +
+        '°C. The cold factor is a rough rule of thumb for LiFePO4, not a measurement — real results vary by model, age and how warm the unit starts. Treat this as a planning estimate and leave a safety margin.';
+    }
+
+    root.addEventListener('input', calc);
+    root.addEventListener('change', calc);
+    calc();
+  })();
+</script>

@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { activeSilos } from '../../site.config';
+import * as S from '../../lib/schema';
+
+export async function getStaticPaths() {
+  return activeSilos().map((silo) => ({ params: { silo: silo.slug }, props: { silo } }));
+}
+
+const { silo } = Astro.props;
+const order = { tool: 0, roundup: 1, vs: 2, guide: 3, product: 4 } as const;
+const articles = (await getCollection('articles', (a) => a.id.startsWith(`${silo.slug}/`) && !(import.meta.env.PROD && a.data.draft)))
+  .sort((a, b) => order[a.data.template] - order[b.data.template]);
+
+const path = `/${silo.slug}/`;
+const crumbs = [{ name: 'Home', path: '/' }, { name: silo.name, path }];
+const label = { tool: 'Free tool', roundup: 'Buying guide', vs: 'Comparison', guide: 'Guide', product: "Buyer's guide" };
+const schema = [
+  S.breadcrumbs(crumbs),
+  { '@type': 'CollectionPage', name: silo.name, description: silo.description, url: new URL(path, Astro.site).toString() },
+  S.itemList(articles.map((a) => ({ name: a.data.title, path: `/${a.id}/` }))),
+];
+---
+<BaseLayout title={silo.name} description={silo.description} schema={schema}>
+  <div class="wrap">
+    <Breadcrumbs items={crumbs} />
+    <header class="article-head">
+      <h1>{silo.name}</h1>
+      <p class="lede">{silo.description}</p>
+    </header>
+    {articles.length === 0 && <p class="muted">New guides are on the way.</p>}
+    <ul class="grid-cards">
+      {articles.map((a) => (
+        <li>
+          <a class="card" href={`/${a.id}/`}>
+            <span class="t">{label[a.data.template]}</span>
+            <h3>{a.data.title}</h3>
+            <p>{a.data.description}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</BaseLayout>

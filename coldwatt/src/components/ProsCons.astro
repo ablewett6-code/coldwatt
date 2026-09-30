@@ -1,0 +1,20 @@
+---
+interface Props { pros: string[]; cons: string[] }
+const { pros, cons } = Astro.props;
+---
+{(pros.length > 0 || cons.length > 0) && (
+  <div class="proscons">
+    {pros.length > 0 && (
+      <div class="pros">
+        <h3>What we like</h3>
+        <ul>{pros.map((p) => <li>{p}</li>)}</ul>
+      </div>
+    )}
+    {cons.length > 0 && (
+      <div class="cons">
+        <h3>Watch out for</h3>
+        <ul>{cons.map((c) => <li>{c}</li>)}</ul>
+      </div>
+    )}
+  </div>
+)}

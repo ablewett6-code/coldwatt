@@ -1,0 +1,19 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { breadcrumbs } from '../lib/schema';
+
+interface Props { title: string; description: string; noindex?: boolean; updated?: string }
+const { title, description, noindex = false, updated } = Astro.props;
+const crumbs = [{ name: 'Home', path: '/' }, { name: title, path: Astro.url.pathname }];
+---
+<BaseLayout title={title} description={description} noindex={noindex} schema={[breadcrumbs(crumbs)]}>
+  <div class="wrap">
+    <Breadcrumbs items={crumbs} />
+    <article class="prose">
+      <h1>{title}</h1>
+      {updated && <p class="small muted">Last updated: {updated}</p>}
+      <slot />
+    </article>
+  </div>
+</BaseLayout>

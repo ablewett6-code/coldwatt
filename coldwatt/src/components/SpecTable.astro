@@ -1,0 +1,26 @@
+---
+import { SPEC_LABELS, formatSpec, NOT_PUBLISHED } from '../lib/products';
+import type { Product } from '../lib/products';
+
+interface Props { product: Product }
+const { product } = Astro.props;
+const specs = product.data.specs;
+const keys = Object.keys(SPEC_LABELS) as (keyof typeof SPEC_LABELS)[];
+---
+<table class="specs">
+  <caption class="small muted" style="text-align:left;caption-side:bottom;padding-top:.6rem">
+    Source: <a href={product.data.specsSource} rel="nofollow noopener" target="_blank">manufacturer spec sheet</a>.
+    "Not published" means the manufacturer doesn't list it — we don't guess.
+  </caption>
+  <tbody>
+    {keys.map((k) => {
+      const v = formatSpec(k, specs[k]);
+      return (
+        <tr>
+          <th scope="row">{SPEC_LABELS[k]}</th>
+          <td class:list={{ na: v === NOT_PUBLISHED }}>{v}</td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
