@@ -1,0 +1,92 @@
+---
+title: "How Long Will a Power Station Run a Fridge?"
+seoTitle: "How Long Will a Power Station Run a Fridge? (Math Inside)"
+description: "Work out how many hours a portable power station can keep your fridge running in an outage, using the EnerGuide number on your fridge. Worked examples included."
+template: guide
+publishDate: 2026-09-30
+faqs:
+  - q: "How long will a 1,000 Wh power station run a fridge?"
+    a: "For a typical fridge rated around 400 kWh per year on its EnerGuide label, roughly 17 hours of continuous running with the unit kept indoors. A more efficient fridge runs longer, an older one shorter. Use the steps on this page with your fridge's own EnerGuide number."
+  - q: "How many watts does a fridge use?"
+    a: "While the compressor is running, many household fridges draw somewhere around 100–200 W, with a brief spike when the compressor starts. Because the compressor cycles on and off, the average draw over a day is much lower — the EnerGuide annual kWh figure divided by 8,760 hours gives you that average."
+  - q: "How long does food stay safe in a fridge without power?"
+    a: "Health Canada says an unopened refrigerator keeps food cold for about 4 hours, a full freezer keeps food frozen for about 48 hours, and a half-full freezer for about 24 hours. Keep the doors closed as much as possible."
+  - q: "Do I need to run the fridge nonstop?"
+    a: "No. Because an unopened fridge stays cold for a few hours, you can run it for a while, unplug it, and plug it back in later. That can stretch a small power station a long way — just keep an eye on the temperature with a fridge thermometer."
+sources:
+  - title: "Health Canada — Food and drinking water safety in an emergency"
+    url: "https://www.canada.ca/en/health-canada/services/food-drinking-water-safe-emergency.html"
+  - title: "Natural Resources Canada — EnerGuide for appliances"
+    url: "https://natural-resources.canada.ca/energy-efficiency/product-energy-ratings/energuide/appliances-energuide"
+  - title: "EcoFlow DELTA 3 Plus — official specifications"
+    url: "https://ca.ecoflow.com/products/delta-3-plus-portable-power-station"
+  - title: "Jackery Explorer 1000 v2 — official specifications"
+    url: "https://ca.jackery.com/products/jackery-explorer-1000-v2-portable-power-station"
+  - title: "BLUETTI Elite 30 V2 — official specifications"
+    url: "https://www.bluettipower.ca/products/elite-30-v2-portable-power-station"
+---
+
+import ProductBox from '../../../components/ProductBox.astro';
+
+**Short answer:** a 1,000 Wh power station kept indoors will run a typical fridge for roughly **15–20 hours**. A small 300 Wh unit manages around **4–5 hours**. The exact number depends on your fridge, and you can work it out in two minutes using a number that's already printed on it.
+
+## Step 1: Find your fridge's EnerGuide number
+
+Every fridge sold new in Canada comes with a yellow-and-black **EnerGuide** label showing its annual energy use in kilowatt-hours (kWh) per year. If the sticker's gone, search your fridge's model number plus "EnerGuide" or check the manual.
+
+That annual figure already accounts for the compressor cycling on and off, so it's a far better guide than the wattage on the back of the fridge.
+
+## Step 2: Turn it into a daily number
+
+Divide the annual kWh by 365 to get kWh per day, then multiply by 1,000 for watt-hours:
+
+> **400 kWh/year ÷ 365 ≈ 1.1 kWh per day ≈ 1,100 Wh per day**
+>
+> That's an average of about **46 W**, around the clock.
+
+## Step 3: Work out what your power station can really deliver
+
+A power station never delivers its full rated capacity to a fridge. Two things eat into it:
+
+- **Reserve:** the battery management system holds back some capacity. We assume 90% is usable.
+- **Inverter losses:** converting battery power to household AC wastes energy. We assume 85% efficiency.
+
+So usable energy ≈ rated capacity × 0.9 × 0.85.
+
+## Step 4: Divide
+
+**Hours of runtime = usable energy ÷ average fridge draw.** Here's how that works out for the models we cover, using the 400 kWh/year example fridge, with each unit kept in a heated room:
+
+| Power station | Rated capacity | Usable (approx.) | Fridge runtime (approx.) |
+|---|---|---|---|
+| BLUETTI Elite 30 V2 | 288 Wh | 220 Wh | ~4.8 hours |
+| EcoFlow DELTA 3 Plus | 1,024 Wh | 783 Wh | ~17 hours |
+| Jackery Explorer 1000 v2 | 1,070 Wh | 818 Wh | ~18 hours |
+
+Rated capacities are from each manufacturer's spec sheet. These are planning estimates, not measurements — build in a margin.
+
+Want to include the furnace fan, lights or internet too? The [winter runtime calculator](/tools/winter-runtime-calculator/) does all of this for you and compares every model at once.
+
+## Make it last much longer
+
+**Cycle the fridge.** Health Canada says an unopened fridge keeps food cold for about 4 hours. Instead of running it nonstop, you can run it for a stretch, unplug it, and plug it back in later. That can more than double how long a power station lasts. A cheap fridge thermometer lets you keep it at or below 4°C, the temperature Health Canada recommends.
+
+**Keep the doors shut.** Every opening lets cold air out and makes the compressor work harder.
+
+**Leave the freezer alone.** A full freezer keeps food frozen for about 48 hours on its own, and a half-full one about 24. Prioritize the fridge.
+
+**Keep the power station warm.** Batteries deliver noticeably less energy when cold, and most won't recharge below 0°C. Keep the unit in a heated room and run a heavy-duty extension cord to the fridge. [Here's why cold charging matters](/power-stations/can-you-charge-lifepo4-below-freezing/).
+
+## Which power station for a fridge?
+
+For a fridge alone, any unit around **1,000 Wh with at least 1,000 W of output** handles the compressor's startup surge and gets you through a night. If you also want the furnace fan running, you need more — see [running a furnace on a power station](/home-backup/power-station-furnace-power-outage/).
+
+<ProductBox id="jackery-explorer-1000-v2" award="Good fit for a fridge">
+  <p>Enough capacity for a typical fridge overnight, and lighter than the EcoFlow if you'll move it around. Jackery rates it to operate down to −10°C, so keep it inside the heated part of the house.</p>
+</ProductBox>
+
+<ProductBox id="ecoflow-delta-3-plus" award="If you'll add the furnace later">
+  <p>Similar capacity, but more output (1,800 W) and the option to add batteries — worth it if a fridge is only the start of your outage plan.</p>
+</ProductBox>
+
+See all our picks in [best power stations for a winter power outage](/home-backup/best-power-station-winter-power-outage/).

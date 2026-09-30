@@ -11,14 +11,14 @@
 
 export const SITE = {
   name: 'ColdWatt',
-  url: 'https://coldwatt.pages.dev', // free Cloudflare address; change when you buy a domain (no trailing slash)
+  url: 'https://coldwattpower.ca', // no trailing slash
   tagline: 'Portable power for real Canadian winters.',
   description:
     'Independent research, calculators and buying guides for portable power stations and solar generators, built for places where winter means −30°C.',
   locale: 'en-CA',
-  contactEmail: 'hello@coldwatt.com', // TODO: create this address on your domain
+  contactEmail: 'hello@coldwattpower.ca', // set up forwarding in Cloudflare → Email Routing
   // Legal entity shown in the privacy policy. A sole proprietor can use their own name.
-  legalName: '[YOUR LEGAL NAME OR BUSINESS NAME]',
+  legalName: 'ColdWatt (operated by Ashton)', // swap in your full legal or business name when ready
   legalRegion: 'Alberta, Canada',
   // Default social share image (1200×630). Replace public/og-default.png with your own.
   defaultOgImage: '/og-default.png',

@@ -257,3 +257,10 @@ code { font-family: var(--mono); font-size: 0.9em; background: var(--paper-2); p
 .data-table th, .data-table td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--line); text-align: left; }
 .data-table thead th { background: var(--paper-2); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3); }
 .data-table td.na { color: var(--ink-3); font-style: italic; }
+
+/* ── Tables written in Markdown articles ──────────────── */
+.prose table:not([class]) { display: block; overflow-x: auto; border-collapse: collapse; width: 100%; font-size: 0.9rem; margin: 1.25rem 0 1.75rem; }
+.prose table:not([class]) th, .prose table:not([class]) td { padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; min-width: 7.5rem; }
+.prose table:not([class]) thead th { background: var(--paper-2); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3); }
+.prose blockquote { margin: 1rem 0 1.5rem; padding: 0.8rem 1rem; background: var(--frost-soft); border-left: 3px solid var(--frost); border-radius: 0 8px 8px 0; }
+.prose blockquote p { margin: 0.2rem 0; }

@@ -4,7 +4,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 // Keep this in sync with SITE.url in src/site.config.ts
-const SITE_URL = 'https://coldwatt.pages.dev';
+const SITE_URL = 'https://coldwattpower.ca';
 
 export default defineConfig({
   site: SITE_URL,
